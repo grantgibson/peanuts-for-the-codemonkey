@@ -7,28 +7,3 @@ A work-in-progress project to reward lines of code committed to GitHub with pean
 
 Example usage: 
 node peanuts.js
-
-Another line in here to make sure it's updating
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10 more lines!
-f
-s
-s
-s
-ss
-s
-s
-s
-ss
-d
-f
-s - testing
