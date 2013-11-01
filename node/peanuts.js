@@ -12,7 +12,7 @@ var ledPin = 13;
 var buttonPin = 12;
 var lastFeed = 0;
 var linesBetweenFeed = 10;
-var checkFrequency = 30; // secs
+var checkFrequency = 120; // in seconds - if you set to less than 60 you'll hit the API rate limit of 60/hr
 
 var ghUser = "grantgibson";
 var ghRepo = "peanuts-for-the-codemonkey";
@@ -57,6 +57,11 @@ function checkRepo(){
 		        linesThisWeek = ghResponse[ghResponse.length-1][1];
 		        console.log("GitHub says... " + linesThisWeek + " lines added this week.");
 		    } else {
+		    	if (ghResponse && ghResponse.message && ghResponse.message.indexOf("rate limit exceeded" == -1)) {
+		    		// Rate limit exceeded for now, don't try again
+		    		console.log("Rate limit exceeded");
+		    		return false;
+		    	}
 		    	// GitHub typically returns an empty response for the first request if it isn't cached
 		    	console.log("No response this time, trying again.");
 		    	setTimeout(checkRepo, 2000);
@@ -72,8 +77,10 @@ function checkRepo(){
 	        	console.log("Free start up bonus:");
 	        }
 	        
-	        if(linesThisWeek >= lastFeed+linesBetweenFeed) {
-	        	console.log("Feed the monkey...");
+	        var linesAdded = linesThisWeek - lastFeed;
+	        
+	        if(linesAdded > linesBetweenFeed) {
+	        	console.log("Added " + linesAdded + ", so feed the monkey...");
 	        	// Light the LED
 	        	board.digitalWrite(ledPin, board.HIGH);
 	        	// Pull the trigger pin high (or low?)
@@ -81,7 +88,6 @@ function checkRepo(){
 	        	
 	        	// Set pins off again
 	        	setTimeout(function(){
-	        		console.log("Off again");
 	        		board.digitalWrite(ledPin, board.LOW);
 	        		board.digitalWrite(buttonPin, board.LOW);
 	        	}, 1000);
