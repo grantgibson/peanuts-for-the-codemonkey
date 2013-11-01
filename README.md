@@ -9,3 +9,14 @@ Example usage:
 node peanuts.js
 
 Another line in here to make sure it's updating
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10 more lines!
