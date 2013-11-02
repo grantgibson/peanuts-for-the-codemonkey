@@ -79,7 +79,7 @@ function checkRepo(){
 	        
 	        var linesAdded = linesThisWeek - lastFeed;
 	        
-	        if(linesAdded > linesBetweenFeed) {
+	        if(linesAdded >= linesBetweenFeed) {
 	        	console.log("Added " + linesAdded + ", so feed the monkey...");
 	        	// Light the LED
 	        	board.digitalWrite(ledPin, board.HIGH);
